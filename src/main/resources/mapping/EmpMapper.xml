@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+    
+<mapper namespace="com.accp.dao.IEmpDao">
+
+	<select id="queryByAll" resultType="dept">
+		SELECT * FROM dept
+	</select>
+	
+	<select id="queryById" resultMap="find1">
+		SELECT * FROM dept 
+		<where>
+			id=#{id}
+		</where>
+	</select>
+	
+	<resultMap type="com.accp.pojo.Dept" id="find1">
+		<id column="id" property="id"/>
+		<result column="name" property="name"/>
+		<result column="address" property="address"/>
+		<collection property="emp" column="id" select="queryByEmp"></collection>
+	</resultMap>
+	
+	<select id="queryByEmp" resultType="com.accp.pojo.Emp">
+		select * from Emp where deptId=#{0}
+	</select>
+	
+	<delete id="deleteById">
+		delete from Emp where id=#{0}
+	</delete>
+	
+	
+</mapper>
